@@ -1,0 +1,15 @@
+{
+  "name": "github-top-langs-fetcher",
+  "version": "1.0.0",
+  "description": "This repo fetch the all the programming languages used in your github repos and print it out in descending order.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "author": "Mukesh Mahato",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^3.2.10"
+  }
+}
