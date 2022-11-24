@@ -47,7 +47,6 @@ fetch(base_url, {
 
     let top_lang = manageData(dataa);
     sendData(top_lang);
-    // console.log(top_lang);
 }).catch(err => console.log(JSON.stringify(err)));
 
 function manageData(dataa) {
@@ -87,22 +86,12 @@ function manageData(dataa) {
         repo_size != 0 ? repoSize.push({ name: repo.name, size: repo_size }) : "";
     });
 
-    // console.log(repoSize);   // working fine
-
-    // console.log(languages);  // working fine
-
-    // console.log(EachLangSize);   // working fine
-
     let totalLangSize = 0;
     languages.forEach((e, i) => {
         lang_size.push({ name: e, size: EachLangSize[i] });
         totalLangSize += EachLangSize[i];
     });
     totalLangSize = `${totalLangSize / 1000}kb`;
-
-    // console.log(lang_size);  // working fine
-
-    // console.log(totalLangSize);  // working fine
 
     const percentage = [];
     lang_size.forEach((e, i) => {
@@ -111,19 +100,12 @@ function manageData(dataa) {
     }
     );
 
-
-
-    // console.log(extratedData.name);
-    // console.log(sortArr(percentage));
-    // console.log("Total Size = ", totalLangSize);
-
     let res = {
         name: extratedData.name,
         percentage: sortArr(percentage),
         totalSize: totalLangSize,
         repoSize: repoSize
     }
-    //  console.log(res);
     return res;
 }
 
@@ -150,7 +132,7 @@ function sortArr(arr) {
     // 2. sorting basaed on the index(1). i.e percentage
     // 3. reversing the sorted array to get higher percent on the top.
     // 4. again mapping the array of arrays to get array of objects.
-    
+
     return arr.map(elem => ([elem.name, elem.percentage.slice(0, -1)]))
         .sort((a, b) => a[1] - b[1])
         .reverse()
@@ -162,7 +144,6 @@ function sendData(data) {
     console.log(data.repoSize);
     let lang_str = "<table>";
     for (const key of data.percentage) {
-        // lang_str += `${key.name}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${key.percentage}<br>`;
         lang_str += `
                         <tr>
                             <td>${key.name}</td>
