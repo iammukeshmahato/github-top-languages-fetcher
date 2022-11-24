@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 
 const variables = {
     token: "Your Github Token",
-    username: "your username"
+    username: "your github username"
 };
 
 const body = {
@@ -120,31 +120,46 @@ function manageData(dataa) {
     let res = {
         name: extratedData.name,
         percentage: sortArr(percentage),
-        totalSize: totalLangSize
+        totalSize: totalLangSize,
+        repoSize: repoSize
     }
     //  console.log(res);
     return res;
 }
 
 function sortArr(arr) {
-    let first = Object.keys(arr[0])[0];
-    let second = Object.keys(arr[0])[1];
-    for (let i = 0; i < arr.length; i++) {
-        for (let j = 0; j < arr.length; j++) {
-            if (parseFloat(arr[j][second]) < parseFloat(arr[i][second])) {
-                let temp = arr[j];
-                arr[j] = arr[i];
-                arr[i] = temp;
-            }
-        }
-    }
 
-    // console.log("arr=", arr);
-    return arr;
+    // Previous Approch
+
+    // let first = Object.keys(arr[0])[0];
+    // let second = Object.keys(arr[0])[1];
+    // for (let i = 0; i < arr.length; i++) {
+    //     for (let j = 0; j < arr.length; j++) {
+    //         if (parseFloat(arr[j][second]) < parseFloat(arr[i][second])) {
+    //             let temp = arr[j];
+    //             arr[j] = arr[i];
+    //             arr[i] = temp;
+    //         }
+    //     }
+    // }
+    // return arr;
+
+    // Updated Approach
+
+    // 1. maping or converting array of objects into array of arrays, with removing '%' sign in percentage.
+    // 2. sorting basaed on the index(1). i.e percentage
+    // 3. reversing the sorted array to get higher percent on the top.
+    // 4. again mapping the array of arrays to get array of objects.
+    
+    return arr.map(elem => ([elem.name, elem.percentage.slice(0, -1)]))
+        .sort((a, b) => a[1] - b[1])
+        .reverse()
+        .map(elem => ({ name: elem[0], percentage: elem[1].concat("%") }));
 }
 
 function sendData(data) {
 
+    console.log(data.repoSize);
     let lang_str = "<table>";
     for (const key of data.percentage) {
         // lang_str += `${key.name}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${key.percentage}<br>`;
